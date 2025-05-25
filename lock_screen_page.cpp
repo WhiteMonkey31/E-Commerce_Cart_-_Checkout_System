@@ -2,21 +2,23 @@
 #include<string>
 using namespace std;
 
+#include "shared_definations.h"
+
 int u_count=0;
-const int u_max=10;
-struct user_data{
-    string username,
-        password;
-    int id;
-};
+// const int u_max=10;
+// struct user_data{
+//     string username,
+//         password;
+//     int id;
+// };
 
 
 void register_user(user_data ud[]);
 void login_user(user_data ud[]);
 
-void lock_screen(){
+void lock_screen(user_data ud[]){
 
-    user_data ud[u_max];
+    // user_data ud[u_max];
     bool b_entery=true;
     do{
         
@@ -31,7 +33,7 @@ void lock_screen(){
             <<"2. Login User.\n"
             <<"3. Admin Panel.\n"
             <<"0. Exit.\n"
-            <<"\nPlease Enter YOur Choice: ";
+            <<"\nPlease Enter Your Choice: ";
         cin>>choice;
         switch(choice){
             case 1:{
@@ -75,11 +77,32 @@ void register_user(user_data ud[]){
         return;
     }
 
-    u_count++;
 
     cout<<"Please Enter Your Credentails:\n"
         <<"Username: ";
-    cin>>ud[u_count].username;
+    string c_username;
+    
+
+    while(true){
+        cin>>c_username;
+        bool is_user_duplicate=false;
+        for(int i=0;i<u_count;i++){
+            if(ud[i].username==c_username){
+                cout<<"Username already exists. Please choose a different username.\n"
+                    <<"Username: ";
+                    is_user_duplicate=true;
+                break;
+            }
+            
+        }
+        if(!is_user_duplicate){
+            break;
+        }
+        ud[u_count].username=c_username;
+    }
+    
+    // cin>>ud[u_count].username;
+    
     cout<<"Password: ";
     cin>>ud[u_count].password;
     ud[u_count].id=u_count;
@@ -88,7 +111,7 @@ void register_user(user_data ud[]){
         <<"your User ID is: "<<ud[u_count].id<<".\n"
         <<"Now you can login with your credentails.\n";
 
-
+    u_count++;
 }
 
 void login_user(user_data ud[]){
