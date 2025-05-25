@@ -14,9 +14,9 @@ struct user_data{
 void register_user(user_data ud[]);
 void login_user(user_data ud[]);
 
-void lock_screen(){
+void lock_screen(user_data ud[]){
 
-    user_data ud[u_max];
+    // user_data ud[u_max];
     bool b_entery=true;
     do{
         
