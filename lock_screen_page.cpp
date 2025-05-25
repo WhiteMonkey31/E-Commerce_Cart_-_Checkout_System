@@ -1,3 +1,6 @@
+#include<iostream>
+#include<string>
+using namespace std;
 
 int u_count=0;
 const int u_max=10;
@@ -13,9 +16,10 @@ void login_user(user_data ud[]);
 
 void lock_screen(){
 
-    bool b_entery=false;
+    user_data ud[u_max];
+    bool b_entery=true;
     do{
-        user_data ud[u_max];
+        
         int choice;
         cout<<"\nSAM E-Commerce Store\n"
             <<"Welcome to our Store.\n"
@@ -26,26 +30,36 @@ void lock_screen(){
             <<"1. Register User.\n"
             <<"2. Login User.\n"
             <<"3. Admin Panel.\n"
+            <<"0. Exit.\n"
             <<"\nPlease Enter YOur Choice: ";
         cin>>choice;
         switch(choice){
             case 1:{
                 cout<<"Register user.\n";
                 register_user(ud);
-
+                // b_entery=true;
                 break;
             }
             case 2:{
                 cout<<"login page.\n";
+                
                 login_user(ud);
+                // b_entery=true;
                 break;
             }
             case 3:{
                 cout<<"Admin Page.\n";
                 break;
             }
+            case 0:{
+                b_entery=false;
+                cout<<"\nExisting the Program.\n"
+                    <<"Thanks for using our store.\n"
+                    <<"Have a nice day.\n"<<endl;
+                break;
+            }
             default:{
-                b_entery=true;
+                // b_entery=true;
                 cout<<"You have entered wrong choice. Please select the correct one.\n";
                 break;
             }
@@ -56,6 +70,11 @@ void lock_screen(){
 
 void register_user(user_data ud[]){
     
+    cin.ignore();
+    if(u_count>=u_max){
+        return;
+    }
+
     u_count++;
 
     cout<<"Please Enter Your Credentails:\n"
@@ -68,11 +87,18 @@ void register_user(user_data ud[]){
     cout<<"\nRegistration Successfull.\n"
         <<"your User ID is: "<<ud[u_count].id<<".\n"
         <<"Now you can login with your credentails.\n";
-        
+
+
 }
 
 void login_user(user_data ud[]){
-
+    cin.ignore();
+    bool b_found=false;
+    if(u_count==0){
+        cout<<"No user registered yet.\n"
+            <<"Please register first to login.\n";
+        return;
+    }
     string c_username, c_password;
     cout<<"Please Enter Your Credentails:\n"
         <<"UserName: ";
@@ -81,15 +107,18 @@ void login_user(user_data ud[]){
     cin>>c_password;
 
     for(int i=0;i<u_count;i++){
-        if(u_count>0 && ud[i].username==c_username && ud[i].password==c_password){
-            cout<<"Login Successfull.\n"
+        if(ud[i].username==c_username && ud[i].password==c_password){
+            cout<<"\nLogin Successfull.\n"
                 <<"Welcome "<<ud[i].username<<".\n";
-            
-        }else{
-            cout<<"Login Failed.\n"
-                <<"Please check your credentails and try again.\n"
-                <<"If you are not registered yet, please register first.\n";
+                b_found=true;
+                break;
             
         }
+    }
+    if(!b_found){
+        cout<<"\nLogin Failed.\n"
+            <<"Please check your credentails and try again.\n"
+            <<"If you are not registered yet, please register first.\n";
+
     }
 }
