@@ -1,3 +1,6 @@
+#include<iostream>
+#include<string>
+using namespace std;
 
 int u_count=0;
 const int u_max=10;
@@ -52,7 +55,7 @@ void lock_screen(){
                 b_entery=false;
                 cout<<"\nExisting the Program.\n"
                     <<"Thanks for using our store.\n"
-                    <<"Have a nice day.\n";
+                    <<"Have a nice day.\n"<<endl;
                 break;
             }
             default:{
@@ -105,7 +108,7 @@ void login_user(user_data ud[]){
 
     for(int i=0;i<u_count;i++){
         if(ud[i].username==c_username && ud[i].password==c_password){
-            cout<<"Login Successfull.\n"
+            cout<<"\nLogin Successfull.\n"
                 <<"Welcome "<<ud[i].username<<".\n";
                 b_found=true;
                 break;
@@ -113,7 +116,7 @@ void login_user(user_data ud[]){
         }
     }
     if(!b_found){
-        cout<<"Login Failed.\n"
+        cout<<"\nLogin Failed.\n"
             <<"Please check your credentails and try again.\n"
             <<"If you are not registered yet, please register first.\n";
 
