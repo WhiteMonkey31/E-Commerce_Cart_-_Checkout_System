@@ -98,9 +98,9 @@ void register_user(user_data ud[]){
         if(!is_user_duplicate){
             break;
         }
-        ud[u_count].username=c_username;
+        
     }
-    
+    ud[u_count].username=c_username;
     // cin>>ud[u_count].username;
     
     cout<<"Password: ";

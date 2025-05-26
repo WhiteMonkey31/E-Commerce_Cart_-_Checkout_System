@@ -14,7 +14,7 @@ void write_user_file(user_data ud[],int u_count){
     }
     
     for(int i=0;i<u_count;i++){
-        user_outfile<<ud[i].id<<"\\"<<ud[i].username<<"\\"<<ud[i].password<<endl;
+        user_outfile<<ud[i].id<<","<<ud[i].username<<","<<ud[i].password<<endl;
     }
     
     user_outfile.close();
@@ -36,7 +36,7 @@ void read_user_file(user_data ud[], int &u_count){
     while(user_infile){
         user_infile.getline(buffer, MAX);
         if(strlen(buffer)>0){
-            const char* delim="\\";
+            const char* delim=",";
             char* next_token;
 
             char* c_id=strtok_s(buffer,delim,&next_token);
@@ -64,3 +64,4 @@ void read_user_file(user_data ud[], int &u_count){
     user_infile.close();
     cout << "User data read from file successfully.\n";
 }
+
