@@ -1,0 +1,7 @@
+----- RECEIPT -----
+Items:
+ID	Name	Qty	Price
+2	Wireless Mouse	12	15.49
+7	Itel S23 +	4	200
+Total Amount Paid: $985.88
+Thank you for shopping!
