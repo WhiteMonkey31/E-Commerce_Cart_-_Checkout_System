@@ -1,2 +1,2 @@
-admin,admin,admin saif,moiz,customer
-oiz saif
+saif,saif,customer
+admin,admin,admin
