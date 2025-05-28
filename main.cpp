@@ -11,7 +11,7 @@
 
 #include "file_handling.cpp"
 #include "lock_screen_page.cpp"
-
+#include "user_interface_page.cpp"
 
 
 // int u_count=0;
@@ -25,9 +25,16 @@
 
 int main(){
     user_data ud[u_max];
+
+    user_interface ui;
    
     read_user_file(ud,u_count);
-    lock_screen(ud);
+    lock_screen(ud,ui);
     write_user_file(ud, u_count);
+
+    
+
+    
+
     return 0;
 }

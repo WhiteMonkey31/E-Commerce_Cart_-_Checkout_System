@@ -3,6 +3,8 @@
 using namespace std;
 
 #include "shared_definations.h"
+#include "user_interface_page.cpp"
+
 
 int u_count=0;
 // const int u_max=10;
@@ -14,9 +16,9 @@ int u_count=0;
 
 
 void register_user(user_data ud[]);
-void login_user(user_data ud[]);
+void login_user(user_data ud[],user_interface ui);
 
-void lock_screen(user_data ud[]){
+void lock_screen(user_data ud[], user_interface ui){
 
     // user_data ud[u_max];
     bool b_entery=true;
@@ -45,7 +47,7 @@ void lock_screen(user_data ud[]){
             case 2:{
                 cout<<"login page.\n";
                 
-                login_user(ud);
+                login_user(ud,ui);
                 // b_entery=true;
                 break;
             }
@@ -114,7 +116,7 @@ void register_user(user_data ud[]){
     u_count++;
 }
 
-void login_user(user_data ud[]){
+void login_user(user_data ud[],user_interface ui){
     cin.ignore();
     bool b_found=false;
     if(u_count==0){
@@ -133,6 +135,12 @@ void login_user(user_data ud[]){
         if(ud[i].username==c_username && ud[i].password==c_password){
             cout<<"\nLogin Successfull.\n"
                 <<"Welcome "<<ud[i].username<<".\n";
+
+                // ui.main_menu();
+                // user_interface ui;
+                ui.main_menu();
+                ud[i].id=i; 
+
                 b_found=true;
                 break;
             
