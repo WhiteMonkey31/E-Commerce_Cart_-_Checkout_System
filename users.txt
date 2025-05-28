@@ -1,2 +1,2 @@
-0\\moiz
-1\\moiz
+saif,saif,customer
+admin,admin,admin

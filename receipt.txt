@@ -1,0 +1,6 @@
+----- RECEIPT -----
+Items:
+ID	Name	Qty	Price
+5	Bread	23	1.75
+Total Amount Paid: $40.25
+Thank you for shopping!
