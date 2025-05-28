@@ -5,13 +5,13 @@
 #include<string>
 
 #include "shared_definations.h"
-
+#include "user_interface_page_header.h"
 
 // using namespace std;
 
 #include "file_handling.cpp"
 #include "lock_screen_page.cpp"
-#include "user_interface_page.cpp"
+
 
 
 // int u_count=0;

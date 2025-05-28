@@ -3,7 +3,8 @@
 using namespace std;
 
 #include "shared_definations.h"
-#include "user_interface_page.cpp"
+// #include "user_interface_page.cpp"
+#include "user_interface_page_header.h"
 
 
 int u_count=0;
