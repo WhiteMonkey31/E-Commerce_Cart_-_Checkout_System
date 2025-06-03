@@ -16,7 +16,8 @@ int u_count=0;
 
 struct user_data{
     string username,
-        password;
+        password,
+        role;
     int id;
 };
 
@@ -80,59 +81,127 @@ class product_catalog{
 class user_interface{
 
     public:
-        void main_menu(product_catalog &pc);
+        void main_menu(product_catalog &pc, user_data ud[], int user_i);
 
 };
 
-void user_interface::main_menu(product_catalog &pc){
+void user_interface::main_menu(product_catalog &pc, user_data ud[], int user_i){
     // cout<<"SAM E-Commerce Store\n"
     //     <<"Welcome to our Store.\n"
     //     <<"************************\n";
     // product_catalog pc;
+    store_intro();
     int m_choice;
-    do{
-        // clear_screen();
-        store_intro();
-        cout<<"\nPlease Select (1-4): \n"
-            <<"1. Display all Products.\n"
-            <<"2. View Cart.\n"
-            <<"3. Search Product.\n"
-            <<"4. Sort Product.\n"
-            <<"0. Logout.\n"
-            <<"\nPlease Enter Your Choice: ";
-            
-            cin>>m_choice;
-        switch(m_choice){
-            case 1:{
-                cout<<"Display All Product Page.\n";
-                pc.display_all_product();
-                break;
+    if(ud[user_i].role=="customer"){
+        cout<<"You are Logged in as Customer.\n";
+
+        do{
+            // clear_screen();
+            // store_intro();
+            cout<<"\nPlease Select (1-4): \n"
+                <<"1. Display all Products.\n"
+                <<"2. View Cart.\n"
+                <<"3. Search Product.\n"
+                <<"4. Sort Product.\n"
+                <<"0. Logout.\n"
+                <<"\nPlease Enter Your Choice: ";
+                
+                cin>>m_choice;
+            switch(m_choice){
+                case 1:{
+                    cout<<"Display All Product Page.\n";
+                    pc.display_all_product();
+                    break;
+                }
+                case 2:{
+                    cout<<"View Cart Page.\n";
+                    break;
+                }
+                case 3:{
+                    cout<<"Search Page Product.\n";
+                    pc.search_product();
+                    break;
+                }
+                case 4:{
+                    cout<<"Sort Product Page.\n";
+                    pc.sort_product();
+                    break;
+                }
+                case 0:{
+                    cout<<"Going Back to login page.\n";
+                    return;
+                }
+                default:{
+                    cout<<"Invalid Choice! Please try again.\n";
+                    cin.ignore();
+                    // pause_screen();
+                    main_menu(pc,ud,user_i);
+                    break;
+                }
             }
-            case 2:{
-                cout<<"View Cart Page.\n";
-                break;
+        }while(m_choice!=0);
+
+    }else if(ud[user_i].role=="admin"){
+        cout<<"You are Logged in as Admin.\n"
+            <<"----------------\n"
+            <<"Admin Panel.\n"
+            <<"----------------\n";
+        
+        do{
+            // clear_screen();
+            // store_intro();
+            cout<<"\nPlease Select (1-4): \n"
+                <<"1. Display all Products.\n"
+                <<"2. Edit Product.\n"
+                <<"3. Search Product.\n"
+                <<"4. Sort Product.\n"
+                <<"5. Delete Product.\n"
+                <<"0. Logout.\n"
+                <<"\nPlease Enter Your Choice: ";
+                
+                cin>>m_choice;
+            switch(m_choice){
+                case 1:{
+                    cout<<"Display All Product Page.\n";
+                    pc.display_all_product();
+                    break;
+                }
+                case 2:{
+                    cout<<"Edit Product Page.\n";
+                    pc.edit_product();
+                    break;
+                }
+                case 3:{
+                    cout<<"Search Page Product.\n";
+                    pc.search_product();
+                    break;
+                }
+                case 4:{
+                    cout<<"Sort Product Page.\n";
+                    pc.sort_product();
+                    break;
+                }
+                case 5:{
+                    cout<<"Delete Product Page.\n";
+                    pc.delete_product();
+                    break;
+                }
+                case 0:{
+                    cout<<"Going Back to login page.\n";
+                    return;
+                }
+                default:{
+                    cout<<"Invalid Choice! Please try again.\n";
+                    cin.ignore();
+                    // pause_screen();
+                    main_menu(pc,ud,user_i);
+                    break;
+                }
             }
-            case 3:{
-                cout<<"Search Page Product.\n";
-                break;
-            }
-            case 4:{
-                cout<<"Sort Product Page.\n";
-                break;
-            }
-            case 0:{
-                cout<<"Going Back to login page.\n";
-                return;
-            }
-            default:{
-                cout<<"Invalid Choice! Please try again.\n";
-                cin.ignore();
-                // pause_screen();
-                main_menu(pc);
-                break;
-            }
-        }
-    }while(m_choice!=0);
+        }while(m_choice!=0);
+
+    }
+    
     
 }
 
@@ -161,14 +230,14 @@ void product_catalog::add_product(){
     p.p_id = p_count;
     
     cout<<"Enter Product Details: \n"
-        <<"Enter Name: ";
+        <<"Name:     ";
     cin.ignore();
     getline(cin,p.p_name);
     // cout<<"Enter Description: ";
     // getline(cin,p.p_description);
-    cout<<"Enter Price: ";
+    cout<<"Price:    ";
     cin>>p.p_price;
-    cout<<"Enter Quantity: ";
+    cout<<"Quantity: ";
     cin>>p.p_quantity;
 
     
@@ -281,7 +350,7 @@ void product_catalog::search_product(){
     bool s_found=false;
     for(int i=0;i<p_count;i++){
         if(s_name==p_list[i].p_name){
-            cout<<"Product Found: \n"
+            cout<<"\nProduct Found: \n"
                 <<"ID:       "<<p_list[i].p_id<<endl
                 <<"Name:     "<<p_list[i].p_name<<endl
                 <<"Quantity: "<<p_list[i].p_quantity<<endl
@@ -393,7 +462,7 @@ void write_user_file(user_data ud[],int u_count){
     }
     
     for(int i=0;i<u_count;i++){
-        user_outfile<<ud[i].id<<","<<ud[i].username<<","<<ud[i].password<<endl;
+        user_outfile<<ud[i].id<<","<<ud[i].username<<","<<ud[i].password<<","<<ud[i].role<<endl;
     }
     
     user_outfile.close();
@@ -421,8 +490,9 @@ void read_user_file(user_data ud[], int &u_count){
             char* c_id=strtok_s(buffer,delim,&next_token);
             char* c_username=strtok_s(NULL,delim,&next_token);
             char* c_password=strtok_s(NULL,delim,&next_token);
+            char* c_role=strtok_s(NULL,delim,&next_token);
 
-            if(c_id == NULL || c_username == NULL || c_password == NULL) {
+            if(c_id == NULL || c_username == NULL || c_password == NULL || c_role == NULL) {
                 cerr << "Error! Invalid data format in 'users.txt'.\n";
                 continue; 
             }
@@ -431,6 +501,7 @@ void read_user_file(user_data ud[], int &u_count){
                 ud[u_count].id=atoi(c_id);
                 ud[u_count].username=c_username;
                 ud[u_count].password=c_password;
+                ud[u_count].role=c_role;
                 u_count++;
             }
             
@@ -564,9 +635,13 @@ void register_user(user_data ud[]){
     cout<<"Password: ";
     cin>>ud[u_count].password;
     ud[u_count].id=u_count;
+    ud[u_count].role="customer";
 
     cout<<"\nRegistration Successfull.\n"
-        <<"your User ID is: "<<ud[u_count].id<<".\n"
+        <<"Your User ID is: "<<ud[u_count].id<<".\n"
+        <<"Username: "<<ud[u_count].username<<".\n"
+        <<"Password: "<<ud[u_count].password<<".\n"
+        <<"Role:     "<<ud[u_count].role<<".\n"
         <<"Now you can login with your credentails.\n";
 
     u_count++;
@@ -594,8 +669,8 @@ void login_user(user_data ud[],user_interface ui, product_catalog &pc){
 
                 // ui.main_menu();
                 // user_interface ui;
-                ui.main_menu(pc);
-                ud[i].id=i; 
+                ui.main_menu(pc,ud,i);
+                // ud[i].id=i; 
 
                 b_found=true;
                 break;
