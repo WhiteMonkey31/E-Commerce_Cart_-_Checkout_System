@@ -1,6 +1,7 @@
 
 #include<iostream>
 #include<fstream>
+#include<string>
 #include<cstring>
 #include<math.h>
 
@@ -22,9 +23,9 @@ struct user_data{
 // int p_count=0;
 
 struct product{
-    int p_id;
-    string p_name,
-        p_description;
+    int p_id,
+        p_quantity;
+    string p_name;
     float p_price;
 };
 
@@ -41,53 +42,98 @@ struct product{
 // #include "shared_definations.h"
 // #include "user_interface_page_header.h"
 
+void store_intro(){
+    cout<<"\n-----------------------------------\n"
+        <<"Welcome to SAM E-Commerce Store.\n"
+        <<"-----------------------------------\n"<<endl;
+}
+
+// void clear_screen(){
+//     system("cls");
+// }
+
+// void pause_screen(){
+//     cout<<"\nPress Enter to Continue...\n";
+//     cin.ignore();
+//     cin.get();
+// }
+
+class product_catalog{
+    // private:
+    public:
+        product p_list[p_MAX];
+        int p_count;
+
+    // public:
+        product_catalog(){
+            p_count=0;
+        }
+        void add_product();
+        void edit_product();
+        void delete_product();
+        void display_all_product();
+        void search_product();
+        void sort_product();
+};
+
+
 class user_interface{
 
     public:
-        void main_menu();
+        void main_menu(product_catalog &pc);
 
 };
 
-void user_interface::main_menu(){
-    cout<<"SAM E-Commerce Store\n"
-        <<"Welcome to our Store.\n"
-        <<"************************\n"
-        <<"\nPlease Select (1-4): \n"
-        <<"1. Product Catalog.\n"
-        <<"2. User Account.\n"
-        <<"3. Search Product.\n"
-        <<"4. Sort Product.\n"
-        <<"0. Exit.\n"
-        <<"\nPlease Enter Your CHoice: ";
-        int m_choice;
-        cin>>m_choice;
-    switch(m_choice){
-        case 1:{
-            cout<<"Product Catalog Page.\n";
-            break;
+void user_interface::main_menu(product_catalog &pc){
+    // cout<<"SAM E-Commerce Store\n"
+    //     <<"Welcome to our Store.\n"
+    //     <<"************************\n";
+    // product_catalog pc;
+    int m_choice;
+    do{
+        // clear_screen();
+        store_intro();
+        cout<<"\nPlease Select (1-4): \n"
+            <<"1. Display all Products.\n"
+            <<"2. View Cart.\n"
+            <<"3. Search Product.\n"
+            <<"4. Sort Product.\n"
+            <<"0. Logout.\n"
+            <<"\nPlease Enter Your Choice: ";
+            
+            cin>>m_choice;
+        switch(m_choice){
+            case 1:{
+                cout<<"Display All Product Page.\n";
+                pc.display_all_product();
+                break;
+            }
+            case 2:{
+                cout<<"View Cart Page.\n";
+                break;
+            }
+            case 3:{
+                cout<<"Search Page Product.\n";
+                break;
+            }
+            case 4:{
+                cout<<"Sort Product Page.\n";
+                break;
+            }
+            case 0:{
+                cout<<"Going Back to login page.\n";
+                return;
+            }
+            default:{
+                cout<<"Invalid Choice! Please try again.\n";
+                cin.ignore();
+                // pause_screen();
+                main_menu(pc);
+                break;
+            }
         }
-        case 2:{
-            cout<<"User Account Page.\n";
-            break;
-        }
-        case 3:{
-            cout<<"Search Page Product.\n";
-            break;
-        }
-        case 4:{
-            cout<<"Sort Product Page.\n";
-            break;
-        }
-        case 0:{
-            cout<<"Going Back to login page.\n";
-            return;
-        }
-        default:{
-            cout<<"Invalid Choice! Please try again.\n";
-            // main_menu();
-            break;
-        }
-    }
+    }while(m_choice!=0);
+    
 }
 
 // #include "user_interface_page_header.h"
@@ -102,22 +148,7 @@ void user_interface::main_menu(){
 
 
 
-class product_catalog{
-    private:
-        product p_list[p_MAX];
-        int p_count;
 
-    public:
-        product_catalog(){
-            p_count=0;
-        }
-        void add_product();
-        void edit_product();
-        void delete_product();
-        void display_all_product();
-        void search_product();
-        void sort_product();
-};
 
 void product_catalog::add_product(){
 
@@ -126,17 +157,19 @@ void product_catalog::add_product(){
         return;
     }
 
-    product &p=p_list[p_MAX];
+    product &p=p_list[p_count];
     p.p_id = p_count;
     
     cout<<"Enter Product Details: \n"
         <<"Enter Name: ";
     cin.ignore();
     getline(cin,p.p_name);
-    cout<<"Enter Description: ";
-    getline(cin,p.p_description);
+    // cout<<"Enter Description: ";
+    // getline(cin,p.p_description);
     cout<<"Enter Price: ";
     cin>>p.p_price;
+    cout<<"Enter Quantity: ";
+    cin>>p.p_quantity;
 
     
     cout<<"\nProduct Added Successfully.\n"
@@ -160,12 +193,15 @@ void product_catalog::edit_product(){
                 <<"New Name: ";
             cin.ignore();
             getline(cin,p_list[i].p_name);
-            cout<<"Current Description: "<<p_list[i].p_description<<endl
-                <<"New Description: ";
-            getline(cin,p_list[i].p_description);
+            // cout<<"Current Description: "<<p_list[i].p_description<<endl
+            //     <<"New Description: ";
+            // getline(cin,p_list[i].p_description);
             cout<<"Current Price: "<<p_list[i].p_price<<endl
                 <<"New Price: ";
             cin>>p_list[i].p_price;
+            cout<<"Current Quantity: "<<p_list[i].p_quantity<<endl
+                <<"New Quantity: ";
+            cin>>p_list[i].p_quantity;
             cout<<"\nProduct Edited Successfully.\n";
 
         }
@@ -186,7 +222,7 @@ void product_catalog::delete_product(){
         if(i==d_id){
             cout<<"Deleting Product ID: "<<i<<endl
                 <<"Product Name: "<<p_list[i].p_name<<endl
-                <<"Product Description: "<<p_list[i].p_description<<endl
+                <<"Product Quantity: "<<p_list[i].p_quantity<<endl
                 <<"Product Price: "<<p_list[i].p_price<<endl
                 <<"\nAre you sure you want to delete this product? (1/0): \n"
                 <<"1. Yes\n"
@@ -196,11 +232,11 @@ void product_catalog::delete_product(){
             cin>>d_choice;
             if(d_choice==1){
                 for(int j=i;j<p_count-1;j++){
-                    p_list[i].p_id=j+1;
-                    p_list[i].p_name=p_list[j+1].p_name;
-                    p_list[i].p_description=p_list[j+1].p_description;
-                    p_list[i].p_price=p_list[j+1].p_price;
-                    
+                    // p_list[i].p_id=j+1;
+                    // p_list[i].p_name=p_list[j+1].p_name;
+                    // p_list[i].p_quantity=p_list[j+1].p_quantity;
+                    // p_list[i].p_price=p_list[j+1].p_price;
+                    p_list[i]=p_list[j+1];
                 }
                 p_count--;
                 cout<<"Product Delected Successfully.\n";
@@ -220,14 +256,20 @@ void product_catalog::display_all_product(){
         return;
     }
     cout<<"Product Catalog:\n"<<endl;
+    cout<<"---------------------------------------\n"
+        <<"ID\tName\tPrice\tQuantity\n"
+        <<"---------------------------------------\n";
     for(int i=0;i<p_count;i++){
-        cout<<"Product ID: "<<p_list[i].p_id<<endl
-            <<"Product Name: "<<p_list[i].p_name<<endl
-            <<"Product Description: "<<p_list[i].p_description<<endl
-            <<"Product Price: "<<p_list[i].p_price<<endl
-            <<"-----------------------------\n";
+        cout<<p_list[i].p_id<<"\t"<<p_list[i].p_name<<"\t"<<p_list[i].p_price<<"\t"<<p_list[i].p_quantity
+            <<endl;
+            // cout<<"Product ID: "<<p_list[i].p_id<<endl
+            // <<"Product Name: "<<p_list[i].p_name<<endl
+            // <<"Product Description: "<<p_list[i].p_description<<endl
+            // <<"Product Price: "<<p_list[i].p_price<<endl
+            // <<"-----------------------------\n";
     }
-    cout<<"Total Products: "<<p_count<<endl;
+    cout<<"-----------------------------------------\n"
+        <<"Total Products: "<<p_count<<endl;
 
 }
 
@@ -240,10 +282,10 @@ void product_catalog::search_product(){
     for(int i=0;i<p_count;i++){
         if(s_name==p_list[i].p_name){
             cout<<"Product Found: \n"
-                <<"Product ID: "<<p_list[i].p_id<<endl
-                <<"Product Name: "<<p_list[i].p_name<<endl
-                <<"Product Description: "<<p_list[i].p_description<<endl
-                <<"Product Price: "<<p_list[i].p_price<<endl;
+                <<"ID:       "<<p_list[i].p_id<<endl
+                <<"Name:     "<<p_list[i].p_name<<endl
+                <<"Quantity: "<<p_list[i].p_quantity<<endl
+                <<"Price:    "<<p_list[i].p_price<<endl;
                 s_found=true;               
                break;
         }
@@ -262,13 +304,73 @@ void product_catalog::sort_product(){
     for(int i=0;i<p_count-1;i++){
         for(int j=i+1;j<p_count;j++){
             if(p_list[i].p_price>p_list[j].p_price){
-                swap(p_list[i].p_id,p_list[j].p_id);
+                // swap(p_list[i].p_id,p_list[j].p_id);
                 swap(p_list[i].p_name,p_list[j].p_name);
-                swap(p_list[i].p_description,p_list[j].p_description);
+                swap(p_list[i].p_quantity,p_list[j].p_quantity);
                 swap(p_list[i].p_price,p_list[j].p_price);
             }
         }
     }
+}
+
+
+void write_product_file(product_catalog &pc){
+    ofstream product_outfile("products.txt",ios::out);
+    if(!product_outfile){
+        cerr<<"Error! opening file \'products.txt\' for writting products data.\n";
+        return;
+    }
+    for(int i=0;i<pc.p_count;i++){
+        product_outfile<<pc.p_list[i].p_id<<","<<pc.p_list[i].p_name<<","<<pc.p_list[i].p_price<<","
+            <<pc.p_list[i].p_quantity<<endl;
+    }
+    product_outfile.close();
+    cout<<"Product Data written to file successfully.\n";
+}
+
+void read_product_file(product_catalog &pc){
+    ifstream product_infile("products.txt");
+    if(!product_infile){
+        cerr<<"Error! can't able to open \'products.txt\' file for reading data.\n";
+        return;
+    }
+    pc.p_count=0;
+    const int MAX=240;
+    char buffer[MAX];
+    while(product_infile){
+        product_infile.getline(buffer, MAX);
+        if(strlen(buffer)>0){
+            const char* delim=",";
+            char* next_token;
+
+            char* c_id=strtok_s(buffer,delim,&next_token);
+            char* c_pname=strtok_s(NULL,delim,&next_token);
+            char* c_pprice=strtok_s(NULL,delim,&next_token);
+            char* c_pquantity=strtok_s(NULL,delim,&next_token);
+
+            if(c_id == NULL || c_pname == NULL || c_pprice == NULL || c_pquantity == NULL) {
+                cerr << "Error! Invalid data format in 'products.txt'.\n";
+                continue; 
+            }
+
+            if(c_id && c_pname && c_pprice && c_pprice){
+                pc.p_list[pc.p_count].p_id=atoi(c_id);
+                pc.p_list[pc.p_count].p_name=c_pname;
+                pc.p_list[pc.p_count].p_price=atof(c_pprice);
+                pc.p_list[pc.p_count].p_quantity=atoi(c_pquantity);
+
+                pc.p_count++;
+            }
+            
+
+            if(pc.p_count >= p_MAX) {
+                break; 
+            }
+        }
+    }
+    product_infile.close();
+    cout << "Product data read from file successfully.\n";
+    
 }
 
 // using namespace std;
@@ -345,6 +447,7 @@ void read_user_file(user_data ud[], int &u_count){
 
 
 
+
 // #include "lock_screen_page.cpp"
 
 // #include<iostream>
@@ -366,45 +469,47 @@ void read_user_file(user_data ud[], int &u_count){
 
 
 void register_user(user_data ud[]);
-void login_user(user_data ud[],user_interface ui);
+void login_user(user_data ud[],user_interface ui, product_catalog &pc);
 
-void lock_screen(user_data ud[], user_interface ui){
+void lock_screen(user_data ud[], user_interface ui, product_catalog &pc){
 
     // user_data ud[u_max];
     bool b_entery=true;
     do{
         
         int choice;
-        cout<<"\nSAM E-Commerce Store\n"
-            <<"Welcome to our Store.\n"
-            <<"**********************\n"<<endl
-            <<"Please Login/Register first to use our store.\n"
+        // cout<<"\nSAM E-Commerce Store\n"
+        //     <<"Welcome to our Store.\n"
+        //     <<"**********************\n"<<endl;
+        store_intro();
+        cout<<"Please Login/Register first to use our store.\n"
             <<"Thanks.\n"<<endl
-            <<"Please select (1-3):\n"
-            <<"1. Register User.\n"
-            <<"2. Login User.\n"
-            <<"3. Admin Panel.\n"
+            <<"\nPlease select (1-3):\n"
+            <<"1. Login User.\n"
+            <<"2. Register User.\n"
+            // <<"3. Admin Panel.\n"
             <<"0. Exit.\n"
             <<"\nPlease Enter Your Choice: ";
         cin>>choice;
         switch(choice){
             case 1:{
-                cout<<"Register user.\n";
-                register_user(ud);
+                cout<<"login user page.\n";
+                login_user(ud,ui,pc);
+                
                 // b_entery=true;
                 break;
             }
             case 2:{
-                cout<<"login page.\n";
+                cout<<"resgister user page.\n";
                 
-                login_user(ud,ui);
+                register_user(ud);
                 // b_entery=true;
                 break;
             }
-            case 3:{
-                cout<<"Admin Page.\n";
-                break;
-            }
+            // case 3:{
+            //     cout<<"Admin Page.\n";
+            //     break;
+            // }
             case 0:{
                 b_entery=false;
                 cout<<"\nExisting the Program.\n"
@@ -415,6 +520,7 @@ void lock_screen(user_data ud[], user_interface ui){
             default:{
                 // b_entery=true;
                 cout<<"You have entered wrong choice. Please select the correct one.\n";
+                cin.ignore();
                 break;
             }
         }
@@ -466,7 +572,7 @@ void register_user(user_data ud[]){
     u_count++;
 }
 
-void login_user(user_data ud[],user_interface ui){
+void login_user(user_data ud[],user_interface ui, product_catalog &pc){
     cin.ignore();
     bool b_found=false;
     if(u_count==0){
@@ -488,7 +594,7 @@ void login_user(user_data ud[],user_interface ui){
 
                 // ui.main_menu();
                 // user_interface ui;
-                ui.main_menu();
+                ui.main_menu(pc);
                 ud[i].id=i; 
 
                 b_found=true;
@@ -519,14 +625,15 @@ int main(){
     user_data ud[u_max];
 
     user_interface ui;
+    product_catalog pc;
    
     read_user_file(ud,u_count);
-    lock_screen(ud,ui);
+    read_product_file(pc);
+
+    lock_screen(ud,ui,pc);
+
+    write_product_file(pc);
     write_user_file(ud, u_count);
-
-    
-
-    
 
     return 0;
 }
