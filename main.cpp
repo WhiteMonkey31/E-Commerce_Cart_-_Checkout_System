@@ -59,6 +59,119 @@ void store_intro(){
 //     cin.get();
 // }
 
+
+
+
+struct CartNode {
+    int product_id;
+    string product_name;
+    float product_price;
+    int quantity;
+
+    CartNode* next;
+    CartNode(int id, string name, float price, int qty)
+        : product_id(id), product_name(name), product_price(price), quantity(qty), next(nullptr) {}
+};
+
+class Cart {
+private:
+    CartNode* head;
+
+public:
+    Cart() {
+        head = nullptr;
+    }
+
+    void add_to_cart(product p, int qty) {
+        CartNode* newNode = new CartNode(p.p_id, p.p_name, p.p_price, qty);
+        newNode->next = head;
+        head = newNode;
+        cout << "Product added to cart.\n";
+    }
+
+    void view_cart() {
+        if (!head) {
+            cout << "Cart is empty.\n";
+            return;
+        }
+        CartNode* temp = head;
+        cout << "\n--- Your Cart ---\n";
+        cout << "ID\tName\tPrice\tQty\n";
+        while (temp) {
+            cout << temp->product_id << "\t" << temp->product_name << "\t"
+                 << temp->product_price << "\t" << temp->quantity << endl;
+            temp = temp->next;
+        }
+    }
+
+    bool remove_last_item() {
+        if (!head) return false;
+        CartNode* temp = head;
+        head = head->next;
+        delete temp;
+        return true;
+    }
+
+    void clear_cart() {
+        while (head) {
+            CartNode* temp = head;
+            head = head->next;
+            delete temp;
+        }
+    }
+
+    ~Cart() {
+        clear_cart();
+    }
+};
+
+
+struct UndoNode {
+    CartNode* cart_snapshot;
+    UndoNode* next;
+    UndoNode(CartNode* node) : cart_snapshot(node), next(nullptr) {}
+};
+
+class UndoStack {
+private:
+    UndoNode* top;
+
+public:
+    UndoStack() : top(nullptr) {}
+
+    void push(CartNode* node) {
+        UndoNode* newNode = new UndoNode(node);
+        newNode->next = top;
+        top = newNode;
+    }
+
+    CartNode* pop() {
+        if (!top) return nullptr;
+        UndoNode* temp = top;
+        top = top->next;
+        CartNode* node = temp->cart_snapshot;
+        delete temp;
+        return node;
+    }
+
+    bool is_empty() {
+        return top == nullptr;
+    }
+
+    ~UndoStack() {
+        while (top) {
+            UndoNode* temp = top;
+            top = top->next;
+            delete temp;
+        }
+    }
+};
+
+
+
+
+
+
 class product_catalog{
     // private:
     public:
@@ -81,11 +194,11 @@ class product_catalog{
 class user_interface{
 
     public:
-        void main_menu(product_catalog &pc, user_data ud[], int user_i);
+        void main_menu(product_catalog &pc, user_data ud[], int user_i, Cart c_cart);
 
 };
 
-void user_interface::main_menu(product_catalog &pc, user_data ud[], int user_i){
+void user_interface::main_menu(product_catalog &pc, user_data ud[], int user_i, Cart c_cart){
     // cout<<"SAM E-Commerce Store\n"
     //     <<"Welcome to our Store.\n"
     //     <<"************************\n";
@@ -115,6 +228,7 @@ void user_interface::main_menu(product_catalog &pc, user_data ud[], int user_i){
                 }
                 case 2:{
                     cout<<"View Cart Page.\n";
+                    c_cart.view_cart();
                     break;
                 }
                 case 3:{
@@ -135,7 +249,7 @@ void user_interface::main_menu(product_catalog &pc, user_data ud[], int user_i){
                     cout<<"Invalid Choice! Please try again.\n";
                     cin.ignore();
                     // pause_screen();
-                    main_menu(pc,ud,user_i);
+                    // main_menu(pc,ud,user_i);
                     break;
                 }
             }
@@ -194,7 +308,7 @@ void user_interface::main_menu(product_catalog &pc, user_data ud[], int user_i){
                     cout<<"Invalid Choice! Please try again.\n";
                     cin.ignore();
                     // pause_screen();
-                    main_menu(pc,ud,user_i);
+                    // main_menu(pc,ud,user_i);
                     break;
                 }
             }
@@ -540,9 +654,9 @@ void read_user_file(user_data ud[], int &u_count){
 
 
 void register_user(user_data ud[]);
-void login_user(user_data ud[],user_interface ui, product_catalog &pc);
+void login_user(user_data ud[],user_interface ui, product_catalog &pc, Cart c_cart);
 
-void lock_screen(user_data ud[], user_interface ui, product_catalog &pc){
+void lock_screen(user_data ud[], user_interface ui, product_catalog &pc, Cart c_cart){
 
     // user_data ud[u_max];
     bool b_entery=true;
@@ -565,7 +679,7 @@ void lock_screen(user_data ud[], user_interface ui, product_catalog &pc){
         switch(choice){
             case 1:{
                 cout<<"login user page.\n";
-                login_user(ud,ui,pc);
+                login_user(ud,ui,pc,c_cart);
                 
                 // b_entery=true;
                 break;
@@ -647,7 +761,7 @@ void register_user(user_data ud[]){
     u_count++;
 }
 
-void login_user(user_data ud[],user_interface ui, product_catalog &pc){
+void login_user(user_data ud[],user_interface ui, product_catalog &pc, Cart c_cart){
     cin.ignore();
     bool b_found=false;
     if(u_count==0){
@@ -669,7 +783,7 @@ void login_user(user_data ud[],user_interface ui, product_catalog &pc){
 
                 // ui.main_menu();
                 // user_interface ui;
-                ui.main_menu(pc,ud,i);
+                ui.main_menu(pc,ud,i,c_cart);
                 // ud[i].id=i; 
 
                 b_found=true;
@@ -701,11 +815,15 @@ int main(){
 
     user_interface ui;
     product_catalog pc;
+
+    Cart c_cart;
+    UndoStack undo_stack;
+
    
     read_user_file(ud,u_count);
     read_product_file(pc);
 
-    lock_screen(ud,ui,pc);
+    lock_screen(ud,ui,pc,c_cart);
 
     write_product_file(pc);
     write_user_file(ud, u_count);
