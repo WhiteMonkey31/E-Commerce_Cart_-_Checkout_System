@@ -188,6 +188,8 @@ class product_catalog{
         void display_all_product();
         void search_product();
         void sort_product();
+
+        // void add_to_cart();
 };
 
 
@@ -224,6 +226,7 @@ void user_interface::main_menu(product_catalog &pc, user_data ud[], int user_i, 
                 case 1:{
                     cout<<"Display All Product Page.\n";
                     pc.display_all_product();
+
                     break;
                 }
                 case 2:{
@@ -317,6 +320,24 @@ void user_interface::main_menu(product_catalog &pc, user_data ud[], int user_i, 
     }
     
     
+}
+
+void add_to_cart(){
+    int prod_id, qty;
+    cout << "Enter Product ID to add to cart: ";
+    cin >> prod_id;
+    if (prod_id < 0 || prod_id >= pc.p_count) {
+        cout << "Invalid Product ID.\n";
+        // break;
+    }
+    cout << "Enter Quantity: ";
+    cin >> qty;
+    c_cart.add_to_cart(pc.p_list[prod_id], qty);
+
+    // Push to undo stack
+    CartNode* snapshot = new CartNode(pc.p_list[prod_id].p_id, pc.p_list[prod_id].p_name, pc.p_list[prod_id].p_price, qty);
+    undo_stack.push(snapshot);
+
 }
 
 // #include "user_interface_page_header.h"
