@@ -32,6 +32,7 @@ void store_intro() {
         << "-----------------------------------\n" << endl;
 }
 
+void credit();
 
 struct CartItem {
     int product_id;
@@ -413,7 +414,7 @@ void user_interface::main_menu(product_catalog& pc, user_data ud[], int user_i, 
                 break;
             }
             case 4: {
-                cout << "Sort Product Page.\n";
+                cout << "All Products are Sorted Automatically.\n";
                 pc.sort_product();
                 break;
             }
@@ -490,7 +491,7 @@ void user_interface::main_menu(product_catalog& pc, user_data ud[], int user_i, 
                 break;
             }
             case 4: {
-                cout << "Sort Product Page.\n";
+                cout << "All products are sorted Automatically.\n";
                 pc.sort_product();
                 break;
             }
@@ -786,7 +787,7 @@ void lock_screen(user_data ud[], user_interface ui, product_catalog &pc, Cart c_
             <<"\nPlease select (1-3):\n"
             <<"1. Login User.\n"
             <<"2. Register User.\n"
-    
+            <<"3. View Credits.\n"
             <<"0. Exit.\n"
             <<"\nPlease Enter Your Choice: ";
         cin>>choice;
@@ -801,7 +802,11 @@ void lock_screen(user_data ud[], user_interface ui, product_catalog &pc, Cart c_
                 register_user(ud);
                 break;
             }
-            
+            case 3:{
+                cout<<"Credits Page.\n";
+                credit();
+                break;
+            }
             case 0:{
                 b_entery=false;
                 cout<<"\nExisting the Program.\n"
@@ -913,4 +918,25 @@ int main(){
     write_user_file(ud, u_count);
 
     return 0;
+}
+
+void credit(){
+    store_intro();
+    cout<<"\n-----------------------------------\n"
+        <<"Credits:\n"
+        <<"-------------------------------------\n"
+        <<"This product is developed by: \n"
+        <<"    1. Saif-ur-Rehman Awan.   4778-FOC/BSSE/F23\n"
+        <<"    2. Abdul Moiz.            4819-FOC/BSSE/F23\n"
+        <<"    3. Ahmed Khurseed.        4796-FOC/BSSE/F23\n"
+        <<endl
+        <<"This project was part of our DS&A Semester Project in 4th semester.\n"
+        <<"Under the Supervision of: \"Mr. Shakeel Ahmed\" in IIUI.\n"
+        <<"We are thankful to him for his guidance and support.\n"
+        <<"-----------------------------------\n"
+        <<"In case of any query or suggestion, please contact us at:\n"
+        <<"   saif.bsse4778@iiu.edu.pk\n"
+        <<"--------------------------------------\n"
+        <<"Thank you for using our E-Commerce Store.\n"<<endl;
+    
 }
