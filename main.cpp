@@ -414,7 +414,7 @@ void user_interface::main_menu(product_catalog& pc, user_data ud[], int user_i, 
                 break;
             }
             case 4: {
-                cout << "Sort Product Page.\n";
+                cout << "All Products are Sorted Automatically.\n";
                 pc.sort_product();
                 break;
             }
@@ -491,7 +491,7 @@ void user_interface::main_menu(product_catalog& pc, user_data ud[], int user_i, 
                 break;
             }
             case 4: {
-                cout << "Sort Product Page.\n";
+                cout << "All products are sorted Automatically.\n";
                 pc.sort_product();
                 break;
             }
@@ -938,5 +938,5 @@ void credit(){
         <<"   saif.bsse4778@iiu.edu.pk\n"
         <<"--------------------------------------\n"
         <<"Thank you for using our E-Commerce Store.\n"<<endl;
-    system("pause");
+    
 }
