@@ -1,2 +1,3 @@
-saif,saif,customer
-admin,admin,admin
+0,saif,hentai,customer
+1,moiz,olu,customer
+2,admin,admin,admin
