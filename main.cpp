@@ -155,15 +155,31 @@ class product_catalog{
 
 };
 
+// cout << "5. Undo Last Added Product\n";
+// ...
+// case 5: {
+//     cout << "Undoing last product...\n";
+//     CartNode* last = undo_stack.pop();
+//     if (last) {
+//         c_cart.remove_last_item();
+//         cout << "Last product removed from cart.\n";
+//         delete last; // Prevent memory leak
+//     } else {
+//         cout << "Nothing to undo.\n";
+//     }
+//     break;
+// }
+
+
 
 class user_interface{
 
     public:
-        void main_menu(product_catalog &pc, user_data ud[], int user_i, Cart c_cart);
+        void main_menu(product_catalog &pc, user_data ud[], int user_i, Cart &c_cart);
 
 };
 
-void user_interface::main_menu(product_catalog &pc, user_data ud[], int user_i, Cart c_cart){
+void user_interface::main_menu(product_catalog &pc, user_data ud[], int user_i, Cart &c_cart){
 
     store_intro();
     int m_choice;
@@ -270,7 +286,7 @@ void user_interface::main_menu(product_catalog &pc, user_data ud[], int user_i, 
     }
 }
 
-void add_to_cart(){
+void add_to_cart(product_catalog &pc, Cart &c_cart, UndoStack &undo_stack){
     int prod_id, qty;
     cout << "Enter Product ID to add to cart: ";
     cin >> prod_id;
