@@ -1,6 +1,4 @@
-// I'll implement the enhancements using custom data structures as you requested. Here's the complete C++ code with bug fixes, a checkout system, and custom implementations for stack and list:
 
-// ```cpp
 #include<iostream>
 #include<fstream>
 #include<string>
@@ -34,7 +32,7 @@ void store_intro() {
         << "-----------------------------------\n" << endl;
 }
 
-// Custom CartItem structure
+
 struct CartItem {
     int product_id;
     string product_name;
@@ -46,7 +44,7 @@ struct CartItem {
         : product_id(id), product_name(name), product_price(price), quantity(qty), next(nullptr) {}
 };
 
-// Custom Cart implementation using linked list
+
 class Cart {
 private:
     CartItem* head;
@@ -56,7 +54,7 @@ public:
     Cart() : head(nullptr), itemCount(0) {}
 
     void add_to_cart(product p, int qty) {
-        // Check if product already exists in cart
+      
         CartItem* current = head;
         while (current != nullptr) {
             if (current->product_id == p.p_id) {
@@ -67,7 +65,7 @@ public:
             current = current->next;
         }
         
-        // Add new item to the beginning of the list
+        
         CartItem* newItem = new CartItem(p.p_id, p.p_name, p.p_price, qty);
         newItem->next = head;
         head = newItem;
@@ -106,7 +104,7 @@ public:
         while (current != nullptr) {
             if (current->product_id == product_id) {
                 if (prev == nullptr) {
-                    // Removing head
+                    
                     head = current->next;
                 } else {
                     prev->next = current->next;
@@ -157,7 +155,7 @@ public:
     }
 };
 
-// Custom Stack implementation for undo functionality
+
 class UndoStack {
 private:
     struct UndoNode {
@@ -165,7 +163,7 @@ private:
         UndoNode* next;
         
         UndoNode(CartItem* items) : cart_snapshot(items), next(nullptr) {
-            // Deep copy of cart items
+            
             if (items != nullptr) {
                 CartItem* current = items;
                 CartItem* tail = nullptr;
@@ -211,7 +209,7 @@ public:
         top = top->next;
         
         CartItem* result = temp->cart_snapshot;
-        temp->cart_snapshot = nullptr; // Prevent deletion of items we're returning
+        temp->cart_snapshot = nullptr; 
         delete temp;
         
         return result;
@@ -265,7 +263,7 @@ void user_interface::checkout(product_catalog& pc, Cart& c_cart) {
     cin >> choice;
 
     if (choice == 1) {
-        // Process checkout
+        
         float total = c_cart.calculate_total();
         
         string name, address, payment;
@@ -290,7 +288,7 @@ void user_interface::checkout(product_catalog& pc, Cart& c_cart) {
         while (current != nullptr) {
             cout << current->product_name << " x" << current->quantity << " @ $" << current->product_price << endl;
             
-            // Update product quantities in inventory
+            
             for (int i = 0; i < pc.p_count; i++) {
                 if (pc.p_list[i].p_id == current->product_id) {
                     pc.p_list[i].p_quantity -= current->quantity;
@@ -307,7 +305,7 @@ void user_interface::checkout(product_catalog& pc, Cart& c_cart) {
         cout << "\nOrder placed successfully!\n";
         cout << "Thank you for shopping with us.\n";
         
-        // Clear cart after successful checkout
+       
         c_cart.clear_cart();
     }
     else {
@@ -316,7 +314,7 @@ void user_interface::checkout(product_catalog& pc, Cart& c_cart) {
 }
 
 void save_cart_snapshot(Cart& cart, UndoStack& undo_stack) {
-    // Create a deep copy of cart items for undo
+    
     CartItem* current = cart.get_items();
     CartItem* snapshot = nullptr;
     CartItem* tail = nullptr;
@@ -359,7 +357,7 @@ void user_interface::main_menu(product_catalog& pc, user_data ud[], int user_i, 
                 cout << "Display All Product Page.\n";
                 pc.display_all_product();
                 
-                // Add to cart functionality
+                
                 cout << "\nWould you like to add a product to cart? (1=Yes, 0=No): ";
                 int addChoice;
                 cin >> addChoice;
@@ -378,7 +376,7 @@ void user_interface::main_menu(product_catalog& pc, user_data ud[], int user_i, 
                         break;
                     }
                     
-                    // Save current cart state before modification
+                    
                     save_cart_snapshot(c_cart, undo_stack);
                     c_cart.add_to_cart(pc.p_list[prod_id], qty);
                 }
@@ -396,7 +394,7 @@ void user_interface::main_menu(product_catalog& pc, user_data ud[], int user_i, 
                         int prod_id;
                         cout << "Enter Product ID to remove: ";
                         cin >> prod_id;
-                        save_cart_snapshot(c_cart, undo_stack); // Save state before removal
+                        save_cart_snapshot(c_cart, undo_stack); 
                         if (c_cart.remove_item(prod_id)) {
                             cout << "Product removed from cart.\n";
                         } else {
@@ -421,16 +419,16 @@ void user_interface::main_menu(product_catalog& pc, user_data ud[], int user_i, 
             }
             case 5: {
                 if (!undo_stack.is_empty()) {
-                    // Clear current cart
+                    
                     c_cart.clear_cart();
                     
-                    // Restore previous state from undo stack
+                    
                     CartItem* restored = undo_stack.pop();
                     while (restored != nullptr) {
-                        // Add each item from the restored cart
+                        
                         c_cart.add_to_cart(pc.p_list[restored->product_id], restored->quantity);
                         
-                        // Move to next item and delete current
+                        
                         CartItem* temp = restored;
                         restored = restored->next;
                         delete temp;
@@ -588,7 +586,7 @@ void product_catalog::delete_product() {
             if (d_choice == 1) {
                 for (int j = i; j < p_count - 1; j++) {
                     p_list[j] = p_list[j + 1];
-                    p_list[j].p_id = j; // Update the ID to match new position
+                    p_list[j].p_id = j; 
                 }
                 p_count--;
                 cout << "Product Deleted Successfully.\n";
@@ -601,9 +599,6 @@ void product_catalog::delete_product() {
         }
     }
 }
-
-// void product_catalog::display_all_product() {
-//     if (p_count == 0
 
 void product_catalog::display_all_product(){
     if(p_count==0){
@@ -791,7 +786,7 @@ void lock_screen(user_data ud[], user_interface ui, product_catalog &pc, Cart c_
             <<"\nPlease select (1-3):\n"
             <<"1. Login User.\n"
             <<"2. Register User.\n"
-            // <<"3. Admin Panel.\n"
+    
             <<"0. Exit.\n"
             <<"\nPlease Enter Your Choice: ";
         cin>>choice;
@@ -806,10 +801,7 @@ void lock_screen(user_data ud[], user_interface ui, product_catalog &pc, Cart c_
                 register_user(ud);
                 break;
             }
-            // case 3:{
-            //     cout<<"Admin Page.\n";
-            //     break;
-            // }
+            
             case 0:{
                 b_entery=false;
                 cout<<"\nExisting the Program.\n"
