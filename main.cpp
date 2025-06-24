@@ -949,7 +949,9 @@ void credit(){      // function to display the credits of the project
         <<"We are thankful to him for his guidance and support.\n"
         <<"-----------------------------------\n"
         <<"In case of any query or suggestion, please contact us at:\n"
-        <<"   saif.bsse4778@iiu.edu.pk\n"
+        <<"   saif.bsse4778@student.iiu.edu.pk\n"
+        <<"\nThis project is also uploaded in Github: \n"
+        <<"https://github.com/WhiteMonkey31/E-Commerce_Cart_-_Checkout_System.git\n"
         <<"--------------------------------------\n"
         <<"Thank you for using our E-Commerce Store.\n"<<endl;
     
