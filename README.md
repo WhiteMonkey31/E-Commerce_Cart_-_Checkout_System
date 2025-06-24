@@ -1,63 +1,110 @@
-# SAM E-Commerce Cart & Checkout System
+# 🛒 SAM E-Commerce Store (C++ Terminal Project)
 
-# Store Management System
+A terminal-based E-Commerce system built in **C++** as a part of the **Data Structures & Algorithms (DS&A)** semester project at **International Islamic University Islamabad (IIUI)**.  
+This project simulates a simplified E-Commerce store with Admin and Customer roles using core Data Structures like Arrays, Linked Lists, and Stacks.
 
-A C++ console application for managing a store with admin and customer functionalities.
+---
 
-## Features
+## 📌 Features
 
-### Admin Features
-- Add new products
-- Edit existing products
-- Remove products
-- View all products
-- View order history
+### 👨‍💼 Admin Panel
+- Display all products
+- Add/edit/delete products
+- Search products by name
+- Sort products by price (ascending)
+- Persistent product data via file handling
 
-### Customer Features
-- View available products
-- Add products to cart
-- View cart
-- Undo last add to cart
-- Checkout
+### 👥 Customer Panel
+- View and search products
+- Add products to cart (Linked List-based)
+- View cart and remove items
+- Checkout with shipping/payment details
+- Undo last cart action (Stack-based)
+- Receipt generation and store quantity update
 
-## Default Admin Credentials
-- Username: admin
-- Password: admin
+---
 
-## How to Compile and Run
+## 💾 File Handling
 
-1. Make sure you have a C++ compiler installed (e.g., g++)
-2. Compile the program:
-   ```bash
-   g++ store.cpp -o store
-   ```
-3. Run the program:
-   ```bash
-   ./store
-   ```
+The application uses text files for persistent storage.
 
-## File Structure
-- `store.cpp` - Main source code
-- `users.txt` - Stores user credentials
-- `products.txt` - Stores product information
+| File          | Description                          |
+|---------------|--------------------------------------|
+| `products.txt`| Stores all product data              |
+| `users.txt`   | Stores user credentials and roles    |
 
-## Usage
+- Files are automatically read at program start.
+- Data is saved automatically on exit.
 
-1. When you first run the program, you'll see three options:
-   - Register (for new customers)
-   - Login (for existing users and admin)
-   - Exit
+---
 
-2. For admin access:
-   - Login with username "admin" and password "admin"
-   - You can then manage products and view orders
+## 🧱 Data Structures Used
 
-3. For customers:
-   - Register first if you're a new user
-   - Login with your credentials
-   - Browse products and manage your cart
+| Feature                 | Data Structure       |
+|------------------------|----------------------|
+| Cart System            | Singly Linked List   |
+| Undo Cart Operations   | Stack (Custom Class) |
+| Product Management     | Static Array         |
+| File Parsing           | C-style Tokenization |
 
-## Data Persistence
-- User accounts are stored in `users.txt`
-- Product information is stored in `products.txt`
-- Both files are created automatically when needed 
+---
+
+## ▶️ Compilation & Execution
+
+### 🧰 Requirements
+- C++ compiler (e.g. `g++`)
+- Terminal/Command Line
+
+### 🔧 Compile
+g++ -o ecommerce main.cpp
+
+## ▶️ Run
+./ecommerce
+
+📁 Make sure products.txt and users.txt are in the same folder.
+If not found, the system will create them automatically.
+
+## 🔐 Admin Access
+
+- To access the admin panel, manually add an admin user to users.txt:
+   0,admin,admin123,admin
+- Then login as:
+   Username: admin
+   Password: admin123
+
+## 📚 Functional Overview
+
+### 🔄 Cart System
+- Add multiple products with quantity
+- View total price, individual subtotals
+- Undo last cart modification (stack restores previous state)
+- Remove specific items from cart
+
+### 📤 Checkout Process
+- Prompt for full name, address, payment method
+- Generate summary with updated product quantities
+- Clear cart after purchase
+
+## 🧑‍💻 Developers
+This project was developed by students of BS Software Engineering - 4th Semester as a DS&A Course Project under the supervision of Mr. Shakeel Ahmed at IIUI:
+
+Saif-ur-Rehman Awan
+4778-FOC/BSSE/F23
+
+Abdul Moiz
+4819-FOC/BSSE/F23
+
+Ahmed Khurseed
+4796-FOC/BSSE/F23
+
+## 📬 Contact
+For queries, suggestions, or bug reports:
+
+📧 Email: saif.bsse4778@iiu.edu.pk
+
+## 📝 License
+This project is intended for academic and educational purposes only.
+If you wish to use this system commercially or expand upon it, please contact the developers.
+
+## 🙏 Acknowledgment
+Special thanks to Mr. Shakeel Ahmed for his guidance, support, and valuable feedback throughout the development of this project.
