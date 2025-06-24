@@ -100,7 +100,7 @@ Ahmed Khurseed
 ## 📬 Contact
 For queries, suggestions, or bug reports:
 
-📧 Email: saif.bsse4778@iiu.edu.pk
+📧 Email: saif.bsse4778@student.iiu.edu.pk
 
 ## 📝 License
 This project is intended for academic and educational purposes only.
